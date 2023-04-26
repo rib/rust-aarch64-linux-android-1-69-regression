@@ -13,15 +13,15 @@ cargo install cargo-apk
 rustup +1.68 target add aarch64-linux-android
 rustup +1.69 target add aarch64-linux-android
 
-cargo +1.68 ndk -t arm64-v8a build # OK
-cargo +1.68 apk build # OK
+cargo +1.68 ndk -t arm64-v8a build --release # OK
+cargo +1.68 apk build --release # OK
 
-cargo +1.69 ndk -t arm64-v8a build # FAILS
-cargo +1.69 apk build # FAILS
+cargo +1.69 ndk -t arm64-v8a build --release # FAILS
+cargo +1.69 apk build --release # FAILS
 
 # Edit Cargo.toml and uncomment sysinfo line with default features enabled
-cargo +1.69 ndk -t arm64-v8a build # OK
-cargo +1.69 apk build # OK
+cargo +1.69 ndk -t arm64-v8a build --release # OK
+cargo +1.69 apk build --release # OK
 ```
 
 ## To reproduce with rustc
