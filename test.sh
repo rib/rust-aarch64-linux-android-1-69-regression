@@ -61,49 +61,62 @@ SYSINFO_SRC='deps/sysinfo-0.27/src/lib.rs'
 #SYSINFO_SRC="$REGISTRY/sysinfo-0.27.8/src/lib.rs"
 
 $RUSTC --crate-name cfg_if --edition=2018 "$CFG_IF_SRC" \
-    --crate-type lib --emit=dep-info,metadata,link \
+    --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --diagnostic-width=155 \
+    --crate-type lib \
+    --emit=dep-info,metadata,link \
     -C opt-level=3 -C embed-bitcode=no \
+    -C metadata=1ad3dad6630bb7d0 -C extra-filename=-1ad3dad6630bb7d0 \
     --out-dir 'target/aarch64-linux-android/release/deps' \
     --target aarch64-linux-android \
     -C "linker=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android21-clang.cmd" \
     -L 'dependency=target/aarch64-linux-android/release/deps' \
+    -L 'dependency=target/release/deps' \
     --cap-lints warn
 
 $RUSTC --crate-name once_cell --edition=2021 "$ONCE_CELL_SRC" \
+    --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --diagnostic-width=155 \
     --crate-type lib \
     --emit=dep-info,metadata,link \
     -C opt-level=3 -C embed-bitcode=no \
     --cfg 'feature="alloc"' --cfg 'feature="default"' --cfg 'feature="race"' --cfg 'feature="std"' \
+    -C metadata=90ed0f50d26d57d0 -C extra-filename=-90ed0f50d26d57d0 \
     --out-dir 'target/aarch64-linux-android/release/deps' \
     --target aarch64-linux-android \
     -C "linker=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android21-clang.cmd" \
     -L 'dependency=target/aarch64-linux-android/release/deps' \
+    -L 'dependency=target/release/deps' \
     --cap-lints warn
 
 $RUSTC --crate-name libc "$LIBC_SRC" \
+    --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --diagnostic-width=155 \
     --crate-type lib \
     --emit=dep-info,metadata,link \
     -C opt-level=3 -C embed-bitcode=no \
     --cfg 'feature="default"' --cfg 'feature="std"' \
+    -C metadata=c5a63ec3721c79a8 -C extra-filename=-c5a63ec3721c79a8 \
     --out-dir 'target/aarch64-linux-android/release/deps' \
     --target aarch64-linux-android \
     -C "linker=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android21-clang.cmd" \
     -L 'dependency=target/aarch64-linux-android/release/deps' \
+    -L 'dependency=target/release/deps' \
     --cap-lints warn \
     --cfg freebsd11 --cfg libc_priv_mod_use --cfg libc_union --cfg libc_const_size_of --cfg libc_align --cfg libc_int128 \
     --cfg libc_core_cvoid --cfg libc_packedN --cfg libc_cfg_target_vendor --cfg libc_non_exhaustive --cfg libc_long_array \
     --cfg libc_ptr_addr_of --cfg libc_underscore_const_names --cfg libc_const_extern_fn
 
+    #--error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --diagnostic-width=155 \
 $RUSTC --crate-name sysinfo --edition=2018 "$SYSINFO_SRC" \
     --crate-type rlib --crate-type cdylib \
     --emit=dep-info,link -C opt-level=3 -C embed-bitcode=no \
+    -C metadata=f4ad1815f1ed88a9 -C extra-filename=-f4ad1815f1ed88a9 \
     --out-dir 'target/aarch64-linux-android/release/deps' \
     --target aarch64-linux-android \
     -C "linker=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android21-clang.cmd" \
     -L 'dependency=target/aarch64-linux-android/release/deps' \
-    --extern 'cfg_if=target/aarch64-linux-android/release/deps/libcfg_if.rlib' \
-    --extern 'libc=target/aarch64-linux-android/release/deps/liblibc.rlib' \
-    --extern 'once_cell=target/aarch64-linux-android/release/deps/libonce_cell.rlib' \
+    -L 'dependency=target/release/deps' \
+    --extern 'cfg_if=target/aarch64-linux-android/release/deps/libcfg_if-1ad3dad6630bb7d0.rlib' \
+    --extern 'libc=target/aarch64-linux-android/release/deps/liblibc-c5a63ec3721c79a8.rlib' \
+    --extern 'once_cell=target/aarch64-linux-android/release/deps/libonce_cell-90ed0f50d26d57d0.rlib' \
     --cap-lints warn
 
 echo ""
